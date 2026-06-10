@@ -45,72 +45,77 @@ class VenueListScreen extends ConsumerWidget {
         ],
       ),
       body: venuesAsync.when(
-        data: (venues) => ListView.separated(
-          padding: EdgeInsets.all(16.r),
-          itemCount: venues.length,
-          separatorBuilder: (context, index) => SizedBox(height: 12.h),
-          itemBuilder: (context, index) {
-            final venue = venues[index];
-            return Card(
-              child: InkWell(
-                borderRadius: BorderRadius.circular(16.r),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VenueDetailScreen(venue: venue),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(16.r),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              venue.name,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            SizedBox(height: 4.h),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on_outlined,
-                                  size: 14.sp,
+        data: (venues) => RefreshIndicator(
+          onRefresh: () async {
+            await ref.read(venueControllerProvider.notifier).refresh();
+          },
+          child: ListView.separated(
+            padding: EdgeInsets.all(16.r),
+            itemCount: venues.length,
+            separatorBuilder: (context, index) => SizedBox(height: 12.h),
+            itemBuilder: (context, index) {
+              final venue = venues[index];
+              return Card(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(16.r),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VenueDetailScreen(venue: venue),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(16.r),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                venue.name,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                              SizedBox(height: 4.h),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    size: 14.sp,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Text(
+                                    venue.location,
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Text(
+                            'Cap: ${venue.capacity}',
+                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                   color: Theme.of(context).primaryColor,
                                 ),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  venue.location,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Text(
-                          'Cap: ${venue.capacity}',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
