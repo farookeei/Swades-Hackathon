@@ -142,23 +142,32 @@ class VenueDetailScreen extends ConsumerWidget {
               data: (_) {
                 final filteredSlots = detailState.filteredSlots;
 
-                if (filteredSlots.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No slots found for this time of day.',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  );
-                }
-
-                return GridView.builder(
-                  padding: EdgeInsets.all(16.r),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3, // 3 columns for hourly list
-                    crossAxisSpacing: 10.w,
-                    mainAxisSpacing: 10.h,
-                    childAspectRatio: 1.6,
-                  ),
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await ref.read(venueDetailControllerProvider(venue.id).notifier).refresh();
+                  },
+                  child: filteredSlots.isEmpty
+                      ? ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: [
+                            SizedBox(height: 100.h),
+                            Center(
+                              child: Text(
+                                'No slots found for this time of day.',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ),
+                          ],
+                        )
+                      : GridView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.all(16.r),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3, // 3 columns for hourly list
+                            crossAxisSpacing: 10.w,
+                            mainAxisSpacing: 10.h,
+                            childAspectRatio: 1.6,
+                          ),
                   itemCount: filteredSlots.length,
                   itemBuilder: (context, index) {
                     final slot = filteredSlots[index];
@@ -209,8 +218,9 @@ class VenueDetailScreen extends ConsumerWidget {
                       ),
                     );
                   },
-                );
-              },
+                ),
+              );
+            },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, stack) => Center(
                 child: Column(
