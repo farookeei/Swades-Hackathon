@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../controllers/venue_controller.dart';
 import 'venue_detail_screen.dart';
 import '../../bookings/views/my_bookings_screen.dart';
+import '../../auth/controllers/auth_controller.dart';
+import '../../auth/views/auth_screen.dart';
 
 class VenueListScreen extends ConsumerWidget {
   const VenueListScreen({super.key});
@@ -16,6 +18,19 @@ class VenueListScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('QuickSlot Venues'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.logout_rounded),
+            tooltip: 'Switch Profile',
+            onPressed: () {
+              ref.read(authProvider.notifier).logout();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AuthScreen(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.bookmark_outline_rounded),
             onPressed: () {
