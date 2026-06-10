@@ -106,12 +106,65 @@ class VenueDetailScreen extends ConsumerWidget {
             ),
           ),
 
+          // Time-of-Day Filter Chips
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: TimeOfDayFilter.values.map((filter) {
+                  final isSelected = detailState.activeFilter == filter;
+                  final label = filter.name[0].toUpperCase() + filter.name.substring(1);
+                  return Padding(
+                    padding: EdgeInsets.only(right: 8.w),
+                    child: ChoiceChip(
+                      label: Text(label),
+                      selected: isSelected,
+                      onSelected: (selected) {
+                        if (selected) {
+                          ref
+                              .read(venueDetailControllerProvider(venue.id).notifier)
+                              .changeFilter(filter);
+                        }
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+
           const Divider(),
 
           // Slots Grid Section
           Expanded(
             child: detailState.slotsAsync.when(
               data: (slots) {
+                // Filter slots locally in-memory
+                final filteredSlots = slots.where((slot) {
+                  final hour = int.parse(slot.time.split(':')[0]);
+                  switch (detailState.activeFilter) {
+                    case TimeOfDayFilter.morning:
+                      return hour >= 6 && hour < 12;
+                    case TimeOfDayFilter.afternoon:
+                      return hour >= 12 && hour < 17;
+                    case TimeOfDayFilter.evening:
+                      return hour >= 17 && hour <= 22;
+                    case TimeOfDayFilter.all:
+                    default:
+                      return true;
+                  }
+                }).toList();
+
+                if (filteredSlots.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No slots found for this time of day.',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  );
+                }
+
                 return GridView.builder(
                   padding: EdgeInsets.all(16.r),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -120,9 +173,9 @@ class VenueDetailScreen extends ConsumerWidget {
                     mainAxisSpacing: 10.h,
                     childAspectRatio: 1.6,
                   ),
-                  itemCount: slots.length,
+                  itemCount: filteredSlots.length,
                   itemBuilder: (context, index) {
-                    final slot = slots[index];
+                    final slot = filteredSlots[index];
                     final isAvailable = slot.isAvailable;
 
                     return Card(

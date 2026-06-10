@@ -3,22 +3,28 @@ import '../models/slot.dart';
 import '../repositories/i_venue_repository.dart';
 import '../repositories/venue_repository.dart';
 
+enum TimeOfDayFilter { all, morning, afternoon, evening }
+
 class VenueDetailState {
   final DateTime selectedDate;
   final AsyncValue<List<Slot>> slotsAsync;
+  final TimeOfDayFilter activeFilter;
 
   VenueDetailState({
     required this.selectedDate,
     required this.slotsAsync,
+    required this.activeFilter,
   });
 
   VenueDetailState copyWith({
     DateTime? selectedDate,
     AsyncValue<List<Slot>>? slotsAsync,
+    TimeOfDayFilter? activeFilter,
   }) {
     return VenueDetailState(
       selectedDate: selectedDate ?? this.selectedDate,
       slotsAsync: slotsAsync ?? this.slotsAsync,
+      activeFilter: activeFilter ?? this.activeFilter,
     );
   }
 }
@@ -42,6 +48,7 @@ class VenueDetailController extends AutoDisposeFamilyNotifier<VenueDetailState, 
     return VenueDetailState(
       selectedDate: today,
       slotsAsync: const AsyncLoading(),
+      activeFilter: TimeOfDayFilter.all,
     );
   }
 
@@ -67,6 +74,10 @@ class VenueDetailController extends AutoDisposeFamilyNotifier<VenueDetailState, 
   void changeDate(DateTime newDate) {
     state = state.copyWith(selectedDate: newDate);
     _fetchSlots(newDate);
+  }
+
+  void changeFilter(TimeOfDayFilter filter) {
+    state = state.copyWith(activeFilter: filter);
   }
 
   Future<void> refresh() async {
