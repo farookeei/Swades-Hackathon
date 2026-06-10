@@ -12,15 +12,23 @@ class VenueApi {
   VenueApi(this._dioClient);
 
   Future<List<dynamic>> fetchVenues() async {
-    final response = await _dioClient.get('/venues');
-    return response.data as List;
+    try {
+      final response = await _dioClient.get('/venues');
+      return response.data as List;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<Map<String, dynamic>> fetchSlots(int venueId, String date) async {
-    final response = await _dioClient.get(
-      '/venues/$venueId/slots',
-      queryParameters: {'date': date},
-    );
-    return response.data as Map<String, dynamic>;
+    try {
+      final response = await _dioClient.get(
+        '/venues/$venueId/slots',
+        queryParameters: {'date': date},
+      );
+      return response.data as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
