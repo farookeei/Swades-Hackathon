@@ -27,6 +27,42 @@ class VenueDetailState {
       activeFilter: activeFilter ?? this.activeFilter,
     );
   }
+
+  List<Slot> get filteredSlots {
+    return slotsAsync.maybeWhen(
+      data: (slots) {
+        final now = DateTime.now();
+        final isToday = selectedDate.year == now.year &&
+            selectedDate.month == now.month &&
+            selectedDate.day == now.day;
+
+        return slots.where((slot) {
+          final timeStr = slot.time.split(' ')[0];
+          final isPM = slot.time.contains('PM');
+          int hour = int.parse(timeStr.split(':')[0]);
+          if (isPM && hour != 12) hour += 12;
+          if (!isPM && hour == 12) hour = 0;
+
+          if (isToday && hour <= now.hour) {
+            return false;
+          }
+
+          switch (activeFilter) {
+            case TimeOfDayFilter.morning:
+              return hour >= 6 && hour < 12;
+            case TimeOfDayFilter.afternoon:
+              return hour >= 12 && hour < 17;
+            case TimeOfDayFilter.evening:
+              return hour >= 17 && hour <= 22;
+            case TimeOfDayFilter.all:
+            default:
+              return true;
+          }
+        }).toList();
+      },
+      orElse: () => [],
+    );
+  }
 }
 
 final venueDetailControllerProvider =

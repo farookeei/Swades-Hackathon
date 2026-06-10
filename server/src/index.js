@@ -44,11 +44,11 @@ app.get('/venues/:id/slots', (req, res) => {
       bookedSlotsMap[b.slot] = b.user_id;
     });
 
-    // 3. Generate 17 hourly slots from 6 AM (06:00) to 10 PM (22:00)
+    // 3. Generate 17 hourly slots from 6 AM to 10 PM
     const hours = [
-      '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-      '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00',
-      '20:00', '21:00', '22:00'
+      '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+      '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM',
+      '8:00 PM', '9:00 PM', '10:00 PM'
     ];
 
     const slots = hours.map(time => {
@@ -111,9 +111,9 @@ app.post('/bookings', (req, res) => {
 
   // Validate slot hour format
   const validHours = [
-    '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00',
-    '20:00', '21:00', '22:00'
+    '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
+    '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM',
+    '8:00 PM', '9:00 PM', '10:00 PM'
   ];
   if (!validHours.includes(slot)) {
     return res.status(400).json({ error: 'Invalid slot time. Operating hours are 6 AM to 10 PM.' });

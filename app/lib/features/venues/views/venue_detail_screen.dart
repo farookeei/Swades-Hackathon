@@ -90,7 +90,7 @@ class VenueDetailScreen extends ConsumerWidget {
                     final picked = await showDatePicker(
                       context: context,
                       initialDate: detailState.selectedDate,
-                      firstDate: DateTime.now().subtract(const Duration(days: 30)),
+                      firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 90)),
                     );
                     if (picked != null) {
@@ -139,22 +139,8 @@ class VenueDetailScreen extends ConsumerWidget {
           // Slots Grid Section
           Expanded(
             child: detailState.slotsAsync.when(
-              data: (slots) {
-                // Filter slots locally in-memory
-                final filteredSlots = slots.where((slot) {
-                  final hour = int.parse(slot.time.split(':')[0]);
-                  switch (detailState.activeFilter) {
-                    case TimeOfDayFilter.morning:
-                      return hour >= 6 && hour < 12;
-                    case TimeOfDayFilter.afternoon:
-                      return hour >= 12 && hour < 17;
-                    case TimeOfDayFilter.evening:
-                      return hour >= 17 && hour <= 22;
-                    case TimeOfDayFilter.all:
-                    default:
-                      return true;
-                  }
-                }).toList();
+              data: (_) {
+                final filteredSlots = detailState.filteredSlots;
 
                 if (filteredSlots.isEmpty) {
                   return Center(
