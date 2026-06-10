@@ -4,17 +4,16 @@ part 'booking.freezed.dart';
 part 'booking.g.dart';
 
 @freezed
-@JsonSerializable(fieldRename: FieldRename.snake)
 class Booking with _$Booking {
   const factory Booking({
     required int id,
-    required int venueId,
-    required String userId,
+    @JsonKey(name: 'venue_id') required int venueId,
+    @JsonKey(name: 'user_id') required String userId,
     required String date,
     required String slot,
-    String? createdAt,
-    String? venueName,
-    String? venueLocation,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'venue_name') String? venueName,
+    @JsonKey(name: 'venue_location') String? venueLocation,
   }) = _Booking;
 
   factory Booking.fromJson(Map<String, dynamic> json) => _$BookingFromJson(json);

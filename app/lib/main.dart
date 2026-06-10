@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/theme/app_theme.dart';
 
+import 'features/auth/views/auth_screen.dart';
+
 void main() {
   runApp(
     const ProviderScope(
@@ -31,42 +33,9 @@ class MyApp extends StatelessWidget {
           title: 'QuickSlot Booking',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.darkTheme,
-          home: const PlaceholderScreen(),
+          home: const AuthScreen(),
         );
       },
-    );
-  }
-}
-
-class PlaceholderScreen extends StatelessWidget {
-  const PlaceholderScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.flash_on_rounded,
-              color: Theme.of(context).primaryColor,
-              size: 64.sp,
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              'QuickSlot Booking',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              'Premium UI dark theme & responsiveness active.',
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

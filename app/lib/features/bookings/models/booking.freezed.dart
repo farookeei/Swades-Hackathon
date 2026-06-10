@@ -22,12 +22,17 @@ Booking _$BookingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Booking {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'venue_id')
   int get venueId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   String get slot => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   String? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'venue_name')
   String? get venueName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'venue_location')
   String? get venueLocation => throw _privateConstructorUsedError;
 
   /// Serializes this Booking to a JSON map.
@@ -46,13 +51,13 @@ abstract class $BookingCopyWith<$Res> {
   @useResult
   $Res call({
     int id,
-    int venueId,
-    String userId,
+    @JsonKey(name: 'venue_id') int venueId,
+    @JsonKey(name: 'user_id') String userId,
     String date,
     String slot,
-    String? createdAt,
-    String? venueName,
-    String? venueLocation,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'venue_name') String? venueName,
+    @JsonKey(name: 'venue_location') String? venueLocation,
   });
 }
 
@@ -130,13 +135,13 @@ abstract class _$$BookingImplCopyWith<$Res> implements $BookingCopyWith<$Res> {
   @useResult
   $Res call({
     int id,
-    int venueId,
-    String userId,
+    @JsonKey(name: 'venue_id') int venueId,
+    @JsonKey(name: 'user_id') String userId,
     String date,
     String slot,
-    String? createdAt,
-    String? venueName,
-    String? venueLocation,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'venue_name') String? venueName,
+    @JsonKey(name: 'venue_location') String? venueLocation,
   });
 }
 
@@ -207,13 +212,13 @@ class __$$BookingImplCopyWithImpl<$Res>
 class _$BookingImpl implements _Booking {
   const _$BookingImpl({
     required this.id,
-    required this.venueId,
-    required this.userId,
+    @JsonKey(name: 'venue_id') required this.venueId,
+    @JsonKey(name: 'user_id') required this.userId,
     required this.date,
     required this.slot,
-    this.createdAt,
-    this.venueName,
-    this.venueLocation,
+    @JsonKey(name: 'created_at') this.createdAt,
+    @JsonKey(name: 'venue_name') this.venueName,
+    @JsonKey(name: 'venue_location') this.venueLocation,
   });
 
   factory _$BookingImpl.fromJson(Map<String, dynamic> json) =>
@@ -222,18 +227,23 @@ class _$BookingImpl implements _Booking {
   @override
   final int id;
   @override
+  @JsonKey(name: 'venue_id')
   final int venueId;
   @override
+  @JsonKey(name: 'user_id')
   final String userId;
   @override
   final String date;
   @override
   final String slot;
   @override
+  @JsonKey(name: 'created_at')
   final String? createdAt;
   @override
+  @JsonKey(name: 'venue_name')
   final String? venueName;
   @override
+  @JsonKey(name: 'venue_location')
   final String? venueLocation;
 
   @override
@@ -290,13 +300,13 @@ class _$BookingImpl implements _Booking {
 abstract class _Booking implements Booking {
   const factory _Booking({
     required final int id,
-    required final int venueId,
-    required final String userId,
+    @JsonKey(name: 'venue_id') required final int venueId,
+    @JsonKey(name: 'user_id') required final String userId,
     required final String date,
     required final String slot,
-    final String? createdAt,
-    final String? venueName,
-    final String? venueLocation,
+    @JsonKey(name: 'created_at') final String? createdAt,
+    @JsonKey(name: 'venue_name') final String? venueName,
+    @JsonKey(name: 'venue_location') final String? venueLocation,
   }) = _$BookingImpl;
 
   factory _Booking.fromJson(Map<String, dynamic> json) = _$BookingImpl.fromJson;
@@ -304,18 +314,23 @@ abstract class _Booking implements Booking {
   @override
   int get id;
   @override
+  @JsonKey(name: 'venue_id')
   int get venueId;
   @override
+  @JsonKey(name: 'user_id')
   String get userId;
   @override
   String get date;
   @override
   String get slot;
   @override
+  @JsonKey(name: 'created_at')
   String? get createdAt;
   @override
+  @JsonKey(name: 'venue_name')
   String? get venueName;
   @override
+  @JsonKey(name: 'venue_location')
   String? get venueLocation;
 
   /// Create a copy of Booking
