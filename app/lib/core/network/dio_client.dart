@@ -4,7 +4,7 @@ import 'awesome_dio_interceptor.dart';
 import '../exceptions/custom_exception.dart';
 
 final dioClientProvider = Provider.autoDispose<DioClient>((ref) {
-  return DioClient(baseUrl: 'http://localhost:3000');
+  return DioClient(baseUrl: 'http://192.168.0.114:3000');
 });
 
 class DioClient {
