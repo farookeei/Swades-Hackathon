@@ -65,7 +65,7 @@ To ensure the application is production-grade, all network, validation, and data
 
 ## AI Usage Note
 
-I utilized AI coding assistants primarily to accelerate boilerplate generation (like Freezed models and basic Riverpod providers) and to help scaffold the Express/SQLite backend structure rapidly.
+I utilized AI coding assistants (specifically the Anti-gravity IDE) primarily to accelerate boilerplate generation (like Freezed models and basic Riverpod providers) and to help scaffold the Express/SQLite backend structure rapidly.
 
 **One thing the AI got wrong that I caught and fixed:**
 Initially, the AI completely forgot to properly handle error cases and failed to add `try-catch` blocks in the API and Repository layers. This meant that network errors or `409 Conflict` database constraint violations would just crash or fail silently instead of being handled gracefully in the UI. I caught this oversight and figured out the correct approach, directing the architecture to include explicit `try-catch` blocks and custom exception mapping in the `VenueApi` and `BookingApi` classes. Because I figured this out correctly, the Riverpod controllers can now catch specific `ConflictExceptions` precisely where they occur and display the proper UI error banners.
@@ -78,6 +78,52 @@ If I had one more day to work on this project, I would implement:
 1.  **WebSocket Integration:** To push real-time availability updates to all connected clients instantly when a slot is booked, rather than relying on manual UI refreshes.
 2.  **Full JWT Authentication:** Implementing a secure user registration and login flow using Firebase Auth or a custom Node.js JWT strategy.
 3.  **Comprehensive E2E Testing:** Expanding beyond unit/widget tests to include full end-to-end (E2E) UI testing using Patrol.
+
+---
+
+## Live API Demonstration (Railway Deployment)
+
+The backend is fully deployed to Railway and the Flutter app successfully communicates with the live server. Here is a direct device log output proving the `GET /venues` request hitting the production server perfectly:
+
+```text
+[Request] -> GET https://hackathon-production-bead.up.railway.app/venues
+I/flutter (29841): Headers: {X-User-Id: User_A}
+I/flutter (29841): 
+I/flutter (29841): [Response] -> 200 https://hackathon-production-bead.up.railway.app/venues
+I/flutter (29841): Response Body:
+I/flutter (29841): [
+I/flutter (29841):   {
+I/flutter (29841):     "id": 1,
+I/flutter (29841):     "name": "Arena Futsal Court",
+I/flutter (29841):     "location": "Zone A, Level 1",
+I/flutter (29841):     "capacity": 10
+I/flutter (29841):   },
+I/flutter (29841):   {
+I/flutter (29841):     "id": 2,
+I/flutter (29841):     "name": "Grand Badminton Hall",
+I/flutter (29841):     "location": "Zone B, Level 2",
+I/flutter (29841):     "capacity": 4
+I/flutter (29841):   },
+I/flutter (29841):   {
+I/flutter (29841):     "id": 3,
+I/flutter (29841):     "name": "Sky Tennis Court",
+I/flutter (29841):     "location": "Rooftop, Block C",
+I/flutter (29841):     "capacity": 4
+I/flutter (29841):   },
+I/flutter (29841):   {
+I/flutter (29841):     "id": 4,
+I/flutter (29841):     "name": "Championship Basketball Court",
+I/flutter (29841):     "location": "Zone A, Level 2",
+I/flutter (29841):     "capacity": 15
+I/flutter (29841):   },
+I/flutter (29841):   {
+I/flutter (29841):     "id": 5,
+I/flutter (29841):     "name": "Premium Squash Court",
+I/flutter (29841):     "location": "Zone B, Level 1",
+I/flutter (29841):     "capacity": 2
+I/flutter (29841):   }
+I/flutter (29841): ]
+```
 
 ---
 
