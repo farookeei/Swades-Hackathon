@@ -2,6 +2,10 @@
 
 QuickSlot is a lightweight, responsive, and concurrency-safe full-stack venue booking application built for rapid, reliable booking of sports courts.
 
+## App Demonstration
+<video src="./screen_record.mp4" controls="controls" width="100%"></video>
+
+
 ## Architecture Overview
 
 The project is structured as a monorepo separated into two main folders:
