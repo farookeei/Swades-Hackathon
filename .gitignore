@@ -1,0 +1,5 @@
+.DS_Store
+.dart_tool/
+hackathon_guidelines_flutter.md
+rules.md
+dio_interceptors.dart
